@@ -11,10 +11,11 @@
     <groupId>teamproject</groupId>
     <artifactId>cs5</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+
     <name>team-project-backend</name>
     <description>team-project-backend</description>
     <properties>
-        <java.version>11</java.version>
+        <java.version>15</java.version>
     </properties>
     <dependencies>
         <dependency>
