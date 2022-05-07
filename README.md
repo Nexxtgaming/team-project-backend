@@ -1,5 +1,8 @@
 # team-project-backend
 
+## Clone project
+to clone this project you should write command `git clone git@github.com:Nexxtgaming/team-project-backend.git` in terminal
+
 ## Requirements
 * WSL 2 if you are on Windows
 * Docker Desktop (https://docs.docker.com/desktop/windows/install/)
