@@ -6,14 +6,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import teamproject.cs5.models.Rating;
 import teamproject.cs5.models.User;
 import teamproject.cs5.payload.request.ChangeRatingRequest;
 import teamproject.cs5.payload.request.UpdateUserRequest;
 import teamproject.cs5.payload.response.MessageResponse;
 import teamproject.cs5.payload.response.UserContactResponse;
 import teamproject.cs5.payload.response.UserPublicInfoResponse;
+import teamproject.cs5.repository.RatingRepository;
 import teamproject.cs5.repository.UserRepository;
 import teamproject.cs5.security.services.UserDetailsImpl;
+
+import java.util.Set;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -22,6 +26,9 @@ public class UserController {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    RatingRepository ratingRepository;
 
     @PatchMapping("/me")
     public ResponseEntity<MessageResponse> updateUser(Authentication authentication, @RequestBody UpdateUserRequest newUser){
@@ -55,21 +62,24 @@ public class UserController {
                 .orElseThrow(()->new RuntimeException("Error: User not found"));
         String username = user.getUsername();
         Long rating = user.getRating();
-        UserPublicInfoResponse publicInfo = new UserPublicInfoResponse(username, rating);
+        Set<Rating> messages = user.getRatings();
+        UserPublicInfoResponse publicInfo = new UserPublicInfoResponse(username, rating, messages);
         return new ResponseEntity<UserPublicInfoResponse>(publicInfo, HttpStatus.OK);
     }
 
     @PatchMapping("/{id}/changeRating")
     @PreAuthorize("hasRole('USER') or hasRole('REFUGEE') or hasRole('HELPER')")
-    public ResponseEntity<MessageResponse> changeRating(@PathVariable("id") Long id, @RequestBody ChangeRatingRequest ratingInfo){
+    public ResponseEntity<MessageResponse> changeRating(@PathVariable("id") Long id, @RequestBody Rating ratingInfo){
         User oldUser = this.userRepository.findById(id)
                 .orElseThrow(()->new RuntimeException("Error: User not found"));
-        if(ratingInfo.getShouldBeIncreased()){
+        if(ratingInfo.getPositive()){
             oldUser.setRating(oldUser.getRating() + 1);
         }
         else{
             oldUser.setRating(oldUser.getRating() - 1);
         }
+        Rating rating = ratingRepository.save(ratingInfo);
+        oldUser.addRating(rating);
         userRepository.save(oldUser);
         MessageResponse messageResponse = new MessageResponse("rating updated");
         return new ResponseEntity<MessageResponse>(messageResponse, HttpStatus.OK);

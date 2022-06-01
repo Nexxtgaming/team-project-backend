@@ -52,6 +52,9 @@ public class User {
 
     private Set<Role> roles = new HashSet<>();
 
+    @OneToMany
+    private Set<Rating> ratings = new HashSet<>();
+
     public User() {}
 
     public User(String username, String name, String surname, String phoneNumber, String email, String password,
@@ -125,5 +128,20 @@ public class User {
     }
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public boolean isVerified() {
+        return verified;
+    }
+
+    public Set<Rating> getRatings() {
+        return ratings;
+    }
+
+    public void setRatings(Set<Rating> ratings) {
+        this.ratings = ratings;
+    }
+    public  void addRating(Rating rating){
+        this.ratings.add(rating);
     }
 }
