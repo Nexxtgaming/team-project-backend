@@ -48,4 +48,7 @@ public class JobOfferService {
         );
         return jobOfferRepository.save(jobOffer);
     }
+    public void deleteById(Long id){
+        jobOfferRepository.deleteById(id);
+    }
 }

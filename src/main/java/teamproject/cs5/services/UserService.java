@@ -25,4 +25,7 @@ public class UserService {
         });
         return result.get();
     }
+    public User getById(Long id){
+        return userRepository.getById(id);
+    }
 }
