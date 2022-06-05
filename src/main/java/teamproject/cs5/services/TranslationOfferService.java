@@ -59,10 +59,10 @@ public class TranslationOfferService {
                 userId,
                 request.getTitle(),
                 request.getDescription(),
-                request.getCity(),
-                request.getLanguage(),
+                request.getLongitude(),
                 request.getLatitude(),
-                request.getLongitude()
+                request.getCity(),
+                request.getLanguage()
                 );
         return translationOfferRepository.save(translationOffer);
     }

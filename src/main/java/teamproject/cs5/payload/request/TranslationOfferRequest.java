@@ -1,48 +1,20 @@
 package teamproject.cs5.payload.request;
 
-public class TranslationOfferRequest {
-    private String title;
-    private String description;
-    private String city;
+public class TranslationOfferRequest extends MapOfferRequest{
+
     private String language;
-    private Double latitude;
 
-    public TranslationOfferRequest(String title,
-                                   String description,
-                                   String city,
-                                   String language, Double latitude, Double longitude) {
-        this.title = title;
-        this.description = description;
-        this.city = city;
+
+    public TranslationOfferRequest(String title, String description, String city, Double longitude, Double latitude, String language) {
+        super(title, description, city, longitude, latitude);
         this.language = language;
-        this.latitude = latitude;
-        this.longitude = longitude;
-    }
-
-    private Double longitude;
-
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public String getCity() {
-        return city;
     }
 
     public String getLanguage() {
         return language;
     }
 
-    public Double getLatitude() {
-        return latitude;
-    }
-
-    public Double getLongitude() {
-        return longitude;
+    public void setLanguage(String language) {
+        this.language = language;
     }
 }
