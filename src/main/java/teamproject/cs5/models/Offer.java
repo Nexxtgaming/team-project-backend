@@ -6,6 +6,8 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.Calendar;
+import java.util.Date;
 
 @MappedSuperclass
 public class Offer {
@@ -26,7 +28,12 @@ public class Offer {
     @NotBlank
     private String city;
 
+    private Date expirationDate;
+
     public Offer() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.MONTH, 1);
+        expirationDate = calendar.getTime();
     }
 
     public Offer(Long userId, String title, String description, String city) {
@@ -34,6 +41,9 @@ public class Offer {
         this.title = title;
         this.description = description;
         this.city = city;
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.MONTH, 1);
+        expirationDate = calendar.getTime();
     }
 
     public Long getId() {
@@ -74,5 +84,13 @@ public class Offer {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public Date getExpirationDate() {
+        return expirationDate;
+    }
+
+    public void setExpirationDate(Date expirationDate) {
+        this.expirationDate = expirationDate;
     }
 }
