@@ -1,7 +1,9 @@
 package teamproject.cs5.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 import teamproject.cs5.models.JobOffer;
 import teamproject.cs5.payload.request.JobOfferRequest;
 import teamproject.cs5.repository.JobOfferRepository;
@@ -14,6 +16,7 @@ public class JobOfferService {
     final JobOfferRepository jobOfferRepository;
 
 
+    @Autowired
     public JobOfferService(JobOfferRepository jobOfferRepository) {
         this.jobOfferRepository = jobOfferRepository;
     }
@@ -22,7 +25,11 @@ public class JobOfferService {
         return jobOfferRepository.save(jobOffer);
     }
     public JobOffer getById(Long id){
-        return jobOfferRepository.getById(id);
+        if(jobOfferRepository.findById(id).isPresent()){
+            return jobOfferRepository.findById(id).get();
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "jobOffer not found");
+        }
     }
     public List<JobOffer> findAll(){
         return jobOfferRepository.findAll();

@@ -1,13 +1,15 @@
 package teamproject.cs5.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 import teamproject.cs5.models.TranslationOffer;
 import teamproject.cs5.payload.request.TranslationOfferRequest;
 import teamproject.cs5.repository.TranslationOfferRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TranslationOfferService {
@@ -21,7 +23,12 @@ public class TranslationOfferService {
         return translationOfferRepository.save(translationOffer);
     }
     public TranslationOffer getById(Long id){
-        return translationOfferRepository.getById(id);
+        Optional<TranslationOffer> offer = translationOfferRepository.findById(id);
+        if(offer.isPresent()){
+            return offer.get();
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"translation offer not found");
+        }
     }
     public void deleteById(Long id){
         translationOfferRepository.deleteById(id);

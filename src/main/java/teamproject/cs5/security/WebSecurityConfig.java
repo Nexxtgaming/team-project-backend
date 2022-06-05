@@ -52,7 +52,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests().antMatchers("/api/auth/**").permitAll().and()
                 .authorizeRequests().antMatchers("/api/translationOffer/**").permitAll().and()
                 .authorizeRequests().antMatchers("/api/volunteersOffer/**").permitAll().and()
-                .authorizeRequests().antMatchers("/api/jobOffer/**").permitAll()
+                .authorizeRequests().antMatchers("/api/jobOffer/**").permitAll().and()
+                .authorizeRequests().antMatchers("/api/languageCourses/**").permitAll()
                 .antMatchers("/api/test/**").permitAll().and()
                 .authorizeRequests().antMatchers("/api/users/*/publicInfo").permitAll()
                 .anyRequest().authenticated();
