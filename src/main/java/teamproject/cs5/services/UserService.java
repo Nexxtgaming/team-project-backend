@@ -1,10 +1,13 @@
 package teamproject.cs5.services;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 import teamproject.cs5.models.ERole;
 import teamproject.cs5.models.User;
 import teamproject.cs5.repository.UserRepository;
 
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 @Service
@@ -26,6 +29,11 @@ public class UserService {
         return result.get();
     }
     public User getById(Long id){
-        return userRepository.getById(id);
+        Optional<User> user = userRepository.findById(id);
+        if (user.isPresent()){
+            return user.get();
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "user not found");
+        }
     }
 }

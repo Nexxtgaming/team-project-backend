@@ -1,5 +1,6 @@
 package teamproject.cs5.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -21,6 +22,7 @@ public class JobOfferController {
 
     final UserService userService;
 
+    @Autowired
     public JobOfferController(JobOfferService jobOfferService, UserService userService) {
         this.jobOfferService = jobOfferService;
         this.userService = userService;
@@ -37,7 +39,7 @@ public class JobOfferController {
         }
     }
     @GetMapping("/{id}")
-    public ResponseEntity<JobOffer> getById(@PathVariable Long id){
+    public ResponseEntity<JobOffer> getById(@PathVariable("id") Long id){
         JobOffer jobOffer = jobOfferService.getById(id);
         return new ResponseEntity<>(jobOffer, HttpStatus.OK);
     }
