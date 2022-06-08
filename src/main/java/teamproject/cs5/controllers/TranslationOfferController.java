@@ -18,6 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/translationOffer")
+@CrossOrigin("*")
 public class TranslationOfferController {
     @Autowired
     TranslationOfferService translationOfferService;

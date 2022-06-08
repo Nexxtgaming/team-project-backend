@@ -14,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/lookingForOffers")
+@CrossOrigin("*")
 public class LookingForController {
     final LookingForService lookingForService;
 

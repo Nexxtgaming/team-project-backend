@@ -16,6 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/languageCourses")
+@CrossOrigin("*")
 public class LanguageCourseController {
 
     final LanguageCourseService languageCourseService;
