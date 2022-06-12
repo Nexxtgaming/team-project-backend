@@ -39,7 +39,7 @@ public class ArticleController {
         }
     }
 
-    @PostMapping("/{url}")
+    @PostMapping("/createbyurl/{url}")
     public ResponseEntity<Article> createByUrl(@PathVariable("url") String url, Authentication authentication) throws IOException {
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         if(userService.isRole(userDetails.getId(), ERole.ROLE_ADMIN)){
@@ -69,13 +69,24 @@ public class ArticleController {
         }
     }
 
+    @DeleteMapping("/deleteall")
+    public ResponseEntity<Article> deleteall(Authentication authentication){
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        if(userService.isRole(userDetails.getId(), ERole.ROLE_ADMIN)){
+            articleService.deleteAll();
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        }else {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+    }
+
     @GetMapping("/all")
     public List<Article> findAll(){
         return articleService.findAll();
     }
 
     @GetMapping
-    public List<Article> getByCity(@RequestParam String url){
+    public List<Article> getByUrl(@RequestParam String url){
         if(url.equals("all") || url.isBlank()){
             return articleService.findAll();
         }

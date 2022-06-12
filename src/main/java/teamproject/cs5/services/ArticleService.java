@@ -111,7 +111,7 @@ public class ArticleService {
                 article = new Article(url, "", title.get(k), "", text.get(k));
             }
             else {
-                article = new Article(url, img_url.get(k), title.get(k), web.get(k), text.get(k));
+                article = new Article(url, img_url.get(k), title.get(k), web.get(k), "");
             }
             articleRepository.save(article);
         }
