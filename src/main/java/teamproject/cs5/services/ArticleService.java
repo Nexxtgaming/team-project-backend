@@ -78,7 +78,7 @@ public class ArticleService {
             Document doc = Jsoup.connect(url).userAgent("Mozilla").get(); //use userAgent because the webSite firewall block the acces if not.
             Elements article = doc.getElementsByClass("news-list").select("p");
             Elements time = doc.getElementsByClass("news-list").select("span");
-            int n = time.size();
+            int n = article.size();
             for (int k = 0; k < n; k++) {
                 text.add(article.get(k).text());
                 title.add(time.get(k).text());
