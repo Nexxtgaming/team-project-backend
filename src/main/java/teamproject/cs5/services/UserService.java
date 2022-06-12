@@ -36,4 +36,7 @@ public class UserService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "user not found");
         }
     }
+    public void save(User user){
+        userRepository.save(user);
+    }
 }
