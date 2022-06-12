@@ -1,7 +1,9 @@
 package teamproject.cs5.controllers;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import teamproject.cs5.models.ConfirmationToken;
 import teamproject.cs5.models.ERole;
 import teamproject.cs5.models.Role;
 import teamproject.cs5.models.User;
@@ -26,7 +29,10 @@ import teamproject.cs5.payload.response.MessageResponse;
 import teamproject.cs5.repository.RoleRepository;
 import teamproject.cs5.repository.UserRepository;
 import teamproject.cs5.security.jwt.JwtUtils;
+import teamproject.cs5.services.ConfirmationTokenService;
 import teamproject.cs5.security.services.UserDetailsImpl;
+import teamproject.cs5.services.MailerService;
+
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/auth")
@@ -41,8 +47,15 @@ public class AuthController {
     PasswordEncoder encoder;
     @Autowired
     JwtUtils jwtUtils;
+
+    @Autowired
+    ConfirmationTokenService confirmationTokenService;
+    @Autowired
+    MailerService mailerService;
+
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+        // TODO: authentication only allowed when user is verified
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -121,6 +134,15 @@ public class AuthController {
         }
         user.setRoles(roles);
         userRepository.save(user);
+        String token = UUID.randomUUID().toString();
+        ConfirmationToken confirmationToken = new ConfirmationToken(
+                token,
+                LocalDateTime.now(),
+                LocalDateTime.now().plusMinutes(15),
+                user
+        );
+        confirmationTokenService.save(confirmationToken);
+        mailerService.sendVerificationMail(token, user);
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
 }

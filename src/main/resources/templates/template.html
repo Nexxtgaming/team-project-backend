@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Email Verification</title>
+  <style type="text/css">
+    .heading{
+      display: flex;
+      background-color: #269cd2;
+      padding: 1px;
+      justify-content: center;
+    }
+    h1{
+      font-family: "Roboto Light",sans-serif;
+      color: white;
+    }
+    .button-container{
+      display: flex;
+      justify-content: center;
+    }
+    .verify{
+      width: 100px;
+      height: 40px;
+      background-color: #1e6e96;
+      border-radius: 5px;
+    }
+    a{
+      color: white;
+      font-family: "Roboto Light",sans-serif;
+      font-size: 18px;
+      text-decoration: none;
+
+    }
+    p {
+      text-align: center;
+      font-family: "Roboto Light",sans-serif;
+    }
+  </style>
+</head>
+<body>
+<div class="heading">
+  <h1>CS5 - Email Verification</h1>
+</div>
+<p class="hello" th:text="${welcome}"/p>
+<p>Thank you for your registration in our application</p>
+<p>Please verify your email:</p>
+<div class="button-container">
+  <button class="verify">
+    <a th:href="@{${link}}">Verify</a>
+  </button>
+</div>
+<p class="end">Team CS5</p>
+</body>
+</html>
