@@ -16,7 +16,7 @@ import javax.mail.internet.MimeMessage;
 public class MailerService {
     private final JavaMailSender mailSender;
     private final TemplateEngine templateEngine;
-    private final String host = "http://localhost:8083/api/confirmationToken";
+    private final String host = "http://212.191.91.13:8083/api/confirmationToken";
 
     @Autowired
     public MailerService(JavaMailSender mailSender, TemplateEngine templateEngine) {
