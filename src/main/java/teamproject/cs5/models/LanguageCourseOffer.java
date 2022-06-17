@@ -7,13 +7,18 @@ public class LanguageCourseOffer extends MapOffer{
 
     private String Language;
 
-    public LanguageCourseOffer(Long userId, String title, String description, Double longitude, Double latitude, String city, String language) {
-        super(userId, title, description, longitude, latitude, city);
+    public LanguageCourseOffer(Long userId, String title, String description, String city, String address, String language) {
+        super(userId, title, description, city, address);
+        Language = language;
+    }
+
+    public LanguageCourseOffer(String address, String language) {
+        super(address);
         Language = language;
     }
 
     public LanguageCourseOffer() {
-        super();
+
     }
 
     public String getLanguage() {

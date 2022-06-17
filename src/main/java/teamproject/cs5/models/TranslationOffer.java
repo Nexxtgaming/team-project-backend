@@ -12,8 +12,13 @@ public class TranslationOffer extends MapOffer {
     @NotBlank
     private String language;
 
-    public TranslationOffer(Long userId, String title, String description, Double longitude, Double latitude, String city, String language) {
-        super(userId, title, description, longitude, latitude, city);
+    public TranslationOffer(Long userId, String title, String description, String city, String address, String language) {
+        super(userId, title, description, city, address);
+        this.language = language;
+    }
+
+    public TranslationOffer(String address, String language) {
+        super(address);
         this.language = language;
     }
 

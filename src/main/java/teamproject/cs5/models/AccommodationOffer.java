@@ -6,22 +6,19 @@ import javax.persistence.Entity;
 public class AccommodationOffer extends MapOffer {
     private Double capacity; //number of person who can be accommodated
 
-    public AccommodationOffer(Long userId,
-                              String title,
-                              String description,
-                              Double longitude,
-                              Double latitude,
-                              String city,
-                              Double capacity){
+    public AccommodationOffer(Long userId, String title, String description, String city, String address, Double capacity) {
+        super(userId, title, description, city, address);
+        this.capacity = capacity;
+    }
 
-        super(userId, title, description, longitude, latitude, city);
-        this.capacity=capacity;
+    public AccommodationOffer(String address, Double capacity) {
+        super(address);
+        this.capacity = capacity;
     }
 
     public AccommodationOffer() {
-
+        super();
     }
-
 
     public Double getCapacity() {
         return capacity;

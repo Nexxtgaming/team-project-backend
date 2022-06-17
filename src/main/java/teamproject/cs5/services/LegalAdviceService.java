@@ -27,9 +27,8 @@ public class LegalAdviceService {
                 userId,
                 request.getTitle(),
                 request.getDescription(),
-                request.getLongitude(),
-                request.getLatitude(),
-                request.getCity()
+                request.getCity(),
+                request.getAddress()
                 );
         return legalAdviceRepository.save(offer);
     }

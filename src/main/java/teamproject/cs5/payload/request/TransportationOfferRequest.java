@@ -10,10 +10,8 @@ public class TransportationOfferRequest extends MapOfferRequest {
     private String dateOfArrival;
     private String vehicleType;
 
-    public TransportationOfferRequest(String title, String description, String cityOfDeparture, Double longitude,
-                                      Double latitude, String cityOfArrival, int seatsAvailable, String dateOfDeparture,
-                                      String dateOfArrival, String vehicleType){
-        super(title, description, cityOfDeparture, longitude, latitude);
+    public TransportationOfferRequest(String title, String description, String city, String address, String cityOfArrival, int seatsAvailable, String dateOfDeparture, String dateOfArrival, String vehicleType) {
+        super(title, description, city, address);
         this.cityOfArrival = cityOfArrival;
         this.seatsAvailable = seatsAvailable;
         this.dateOfDeparture = dateOfDeparture;

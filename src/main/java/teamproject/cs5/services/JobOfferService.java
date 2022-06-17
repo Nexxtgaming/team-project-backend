@@ -48,10 +48,9 @@ public class JobOfferService {
                 userId,
                 request.getTitle(),
                 request.getDescription(),
-                request.getLongitude(),
-                request.getLatitude(),
-                request.getSalary(),
-                request.getCity()
+                request.getCity(),
+                request.getAddress(),
+                request.getSalary()
         );
         return jobOfferRepository.save(jobOffer);
     }

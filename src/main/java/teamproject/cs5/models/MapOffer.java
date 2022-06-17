@@ -5,38 +5,28 @@ import javax.validation.constraints.NotBlank;
 
 @MappedSuperclass
 public class MapOffer extends Offer {
-    @NotBlank
-    private Double longitude;
-    @NotBlank
-    private Double latitude;
 
-    public MapOffer(Double longitude, Double latitude) {
-        this.longitude = longitude;
-        this.latitude = latitude;
+    @NotBlank
+    private String address;
+
+    public MapOffer(String address) {
+        this.address = address;
     }
 
-    public MapOffer(Long userId, String title, String description, Double longitude, Double latitude, String city) {
+    public MapOffer(Long userId, String title, String description, String city, String address) {
         super(userId, title, description, city);
-        this.longitude = longitude;
-        this.latitude = latitude;
+        this.address = address;
     }
 
     public MapOffer() {
+
     }
 
-    public Double getLongitude() {
-        return longitude;
+    public String getAddress() {
+        return address;
     }
 
-    public void setLongitude(Double longitude) {
-        this.longitude = longitude;
-    }
-
-    public Double getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(Double latitude) {
-        this.latitude = latitude;
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

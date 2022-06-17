@@ -59,9 +59,8 @@ public class TranslationOfferService {
                 userId,
                 request.getTitle(),
                 request.getDescription(),
-                request.getLongitude(),
-                request.getLatitude(),
                 request.getCity(),
+                request.getAddress(),
                 request.getLanguage()
                 );
         return translationOfferRepository.save(translationOffer);

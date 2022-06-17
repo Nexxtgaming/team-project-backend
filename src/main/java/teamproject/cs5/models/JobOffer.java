@@ -7,14 +7,14 @@ public class JobOffer extends MapOffer{
 
     private Double salary;
 
-
-    public JobOffer(Long userId, String title, String description, Double longitude, Double latitude, Double salary, String city) {
-        super(userId, title, description, longitude, latitude, city);
+    public JobOffer(Long userId, String title, String description, String city, String address, Double salary) {
+        super(userId, title, description, city, address);
         this.salary = salary;
     }
 
-    public JobOffer() {
-
+    public JobOffer(String address, Double salary) {
+        super(address);
+        this.salary = salary;
     }
 
     public Double getSalary() {

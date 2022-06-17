@@ -16,6 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/accommodationOffer")
+@CrossOrigin("*")
 public class AccommodationOfferController {
     final AccommodationOfferService accommodationOfferService;
     final UserService userService;

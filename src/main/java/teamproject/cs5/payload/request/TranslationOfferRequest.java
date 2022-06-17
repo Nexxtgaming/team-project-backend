@@ -4,9 +4,8 @@ public class TranslationOfferRequest extends MapOfferRequest{
 
     private String language;
 
-
-    public TranslationOfferRequest(String title, String description, String city, Double longitude, Double latitude, String language) {
-        super(title, description, city, longitude, latitude);
+    public TranslationOfferRequest(String title, String description, String city, String address, String language) {
+        super(title, description, city, address);
         this.language = language;
     }
 

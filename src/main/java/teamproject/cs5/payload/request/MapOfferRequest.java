@@ -1,20 +1,19 @@
 package teamproject.cs5.payload.request;
 
 public class MapOfferRequest extends OfferRequest{
-    private final Double longitude;
-    private final Double latitude;
+    
+    public String address;
 
-    public MapOfferRequest(String title, String description, String city, Double longitude, Double latitude) {
+    public MapOfferRequest(String title, String description, String city, String address) {
         super(title, description, city);
-        this.longitude = longitude;
-        this.latitude = latitude;
+        this.address = address;
     }
 
-    public Double getLatitude() {
-        return latitude;
+    public String getAddress() {
+        return address;
     }
 
-    public Double getLongitude() {
-        return longitude;
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

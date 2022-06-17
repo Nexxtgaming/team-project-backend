@@ -29,9 +29,8 @@ public class LanguageCourseService {
                 userId,
                 request.getTitle(),
                 request.getDescription(),
-                request.getLongitude(),
-                request.getLatitude(),
                 request.getCity(),
+                request.getAddress(),
                 request.getLanguage()
         );
         return languageCourseRepository.save(offer);

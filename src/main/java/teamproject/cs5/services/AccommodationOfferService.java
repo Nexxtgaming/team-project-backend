@@ -45,9 +45,8 @@ public class AccommodationOfferService {
                 userId,
                 request.getTitle(),
                 request.getDescription(),
-                request.getLongitude(),
-                request.getLatitude(),
                 request.getCity(),
+                request.getAddress(),
                 request.getCapacity()
 
         );
