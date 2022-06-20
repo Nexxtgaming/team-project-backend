@@ -16,6 +16,7 @@ import teamproject.cs5.services.UserService;
 import java.io.IOException;
 import java.util.List;
 
+@CrossOrigin("http://localhost:4200")
 @RestController
 @RequestMapping("/api/article")
 public class ArticleController {
@@ -40,8 +41,8 @@ public class ArticleController {
     }*/
 
     @PostMapping("/createbyurl/{url}")
-    public ResponseEntity<Article> createByUrl(@PathVariable("url") String url, Authentication authentication) throws IOException {
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+    public ResponseEntity<Article> createByUrl(@PathVariable("url") long url, Authentication authentication) throws IOException {
+        //UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         //if(userService.isRole(userDetails.getId(), ERole.ROLE_ADMIN))
         {
             articleService.createFromUrl(url);
@@ -73,7 +74,7 @@ public class ArticleController {
 
     @DeleteMapping("/deleteall")
     public ResponseEntity<Article> deleteall(Authentication authentication){
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        //UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         //if(userService.isRole(userDetails.getId(), ERole.ROLE_ADMIN))
         {
             articleService.deleteAll();
@@ -90,10 +91,7 @@ public class ArticleController {
     }
 
     @GetMapping("/getbyurl/{url}")
-    public List<Article> getByUrl(@PathVariable String url){
-        if(url.equals("all") || url.isBlank()){
-            return articleService.findAll();
-        }
+    public List<Article> getByUrl(@PathVariable long url) {
         return articleService.getByUrl(url);
     }
 }

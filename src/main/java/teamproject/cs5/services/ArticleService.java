@@ -27,11 +27,18 @@ public class ArticleService {
         return articleRepository.findAll();
     }
 
-    public List<Article> getByUrl(String url){ //Get all article from one website
+    public List<Article> getByUrl(long url){ //Get all article from one website
+        String urlf="";
+        if(url==1)
+            urlf="https://visitukraine.today/uk/blog";
+        if(url==2)
+            urlf="https://war.ukraine.ua/ru/news/";
+        if(url==3)
+            urlf="https://www.ukrinform.ua/";
         List<Article> articles_by_url = new ArrayList<Article>();
         List<Article> all_article = findAll();
         for(Article article : all_article){
-            if(article.getUrl_web_site_init().equals(url)) {
+            if(article.getUrl_web_site_init().equals(urlf)) {
                 articles_by_url.add(article);
             }
         }
@@ -54,7 +61,7 @@ public class ArticleService {
         return articleRepository.save(article);
     }
 
-    public void createFromUrl(String url) throws IOException {
+    public void createFromUrl(long url) throws IOException {
         String visitUkraine = "https://visitukraine.today/uk/blog"; //Img + title + url_article
         String warUkraine = "https://war.ukraine.ua/ru/news/"; //Title + text
         String ukrinform = "https://www.ukrinform.ua/"; //Img + title + url_article
@@ -62,8 +69,10 @@ public class ArticleService {
         ArrayList<String> text = new ArrayList<String>();
         ArrayList<String> img_url = new ArrayList<String>();
         ArrayList<String> title = new ArrayList<String>();
-        if (url.equals(visitUkraine)) {
-            Document doc = Jsoup.connect(url).userAgent("Mozilla/5.0").get();
+        String urlf="";
+        if (url==1) {
+            urlf = visitUkraine;
+            Document doc = Jsoup.connect(visitUkraine).userAgent("Mozilla/5.0").get();
             Elements img = doc.getElementsByClass("page-blog_all-news-wrapp").select("img");
             Elements url_article = doc.getElementsByClass("page-blog_all-news-wrapp").select("a"); //We can extract the url and title with ALT attr
             int n = img.size();
@@ -72,10 +81,10 @@ public class ArticleService {
                 title.add(url_article.get(2 * k).text());     //avoid duplicate value (2 href present)
                 web.add(url_article.get(2 * k).attr("href"));
             }
+            System.out.println(urlf+"\n\n\n");
         }
-
-        if (url.equals(warUkraine)) {
-            Document doc = Jsoup.connect(url).userAgent("Mozilla").get(); //use userAgent because the webSite firewall block the acces if not.
+        if (url==2) {
+            Document doc = Jsoup.connect(warUkraine).userAgent("Mozilla").get(); //use userAgent because the webSite firewall block the acces if not.
             Elements article = doc.getElementsByClass("news-list").select("p");
             Elements time = doc.getElementsByClass("news-list").select("span");
             int n = article.size();
@@ -84,9 +93,9 @@ public class ArticleService {
                 title.add(time.get(k).text());
             }
         }
-
-        if (url.equals(ukrinform)) {
-            Document doc = Jsoup.connect(url).userAgent("Mozilla").get();
+        if (url==3) {
+            urlf = ukrinform;
+            Document doc = Jsoup.connect(ukrinform).userAgent("Mozilla").get();
             Elements img = doc.getElementsByClass("topAnons").select("img");
             Elements url_article = doc.getElementsByClass("topAnons").select("a");
             int n = img.size();
@@ -100,18 +109,19 @@ public class ArticleService {
                 Elements title_article = doc2.getElementsByClass("newsTitle");
                 title.add(title_article.get(0).text());
             }
+            System.out.println(urlf+"\n\n\n");
         }
-        else {
+        /*else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Url can't be scrapped");
-        }
+        }*/
         int n = title.size();
         for(int k = 0 ; k<n ; k++){
             Article article;
-            if(url.equals(warUkraine)) {
-                article = new Article(url, "", title.get(k), "", text.get(k));
+            if(url==2) {
+                article = new Article(warUkraine, "", title.get(k), "", text.get(k));
             }
             else {
-                article = new Article(url, img_url.get(k), title.get(k), web.get(k), "");
+                article = new Article(urlf, img_url.get(k), title.get(k), web.get(k), "");
             }
             articleRepository.save(article);
         }
