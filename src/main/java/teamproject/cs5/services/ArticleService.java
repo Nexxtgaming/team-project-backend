@@ -27,7 +27,7 @@ public class ArticleService {
         return articleRepository.findAll();
     }
 
-    public List<Article> getByUrl(long url){ //Get all article from one website
+    public List<Article> getByUrl(long url){ //Get all article from one website.
         String urlf="";
         if(url==1)
             urlf="https://visitukraine.today/uk/blog";
