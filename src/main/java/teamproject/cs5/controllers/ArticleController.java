@@ -27,28 +27,29 @@ public class ArticleController {
         this.articleService = articleService;
         this.userService = userService;
     }
-
+    /*
     @PostMapping
     public ResponseEntity<Article> create(@RequestBody ArticleRequest request, Authentication authentication){
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        if(userService.isRole(userDetails.getId(), ERole.ROLE_ADMIN)){
+        if(userService.isRole(userDetails.getId(), ERole.ROLE_ADMIN)) {
             Article article = articleService.createFromRequest(request);
             return new ResponseEntity<>(article, HttpStatus.CREATED);
         } else {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-    }
+    }*/
 
     @PostMapping("/createbyurl/{url}")
     public ResponseEntity<Article> createByUrl(@PathVariable("url") String url, Authentication authentication) throws IOException {
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        if(userService.isRole(userDetails.getId(), ERole.ROLE_ADMIN)){
+        //if(userService.isRole(userDetails.getId(), ERole.ROLE_ADMIN))
+        {
             articleService.createFromUrl(url);
             return new ResponseEntity<>(HttpStatus.CREATED);
         }
-        else {
+        /*else {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        }
+        }*/
     }
 
     @GetMapping("/{id}")
@@ -57,6 +58,7 @@ public class ArticleController {
         return new ResponseEntity<>(article, HttpStatus.OK);
     }
 
+    /*
     @DeleteMapping("/{id}")
     public ResponseEntity<Article> delete(@PathVariable Long id, Authentication authentication){
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
@@ -67,17 +69,19 @@ public class ArticleController {
         }else {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-    }
+    }*/
 
     @DeleteMapping("/deleteall")
     public ResponseEntity<Article> deleteall(Authentication authentication){
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        if(userService.isRole(userDetails.getId(), ERole.ROLE_ADMIN)){
+        //if(userService.isRole(userDetails.getId(), ERole.ROLE_ADMIN))
+        {
             articleService.deleteAll();
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
-        }else {
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
+        /*else {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }*/
     }
 
     @GetMapping("/all")
@@ -85,8 +89,8 @@ public class ArticleController {
         return articleService.findAll();
     }
 
-    @GetMapping
-    public List<Article> getByUrl(@RequestParam String url){
+    @GetMapping("/getbyurl/{url}")
+    public List<Article> getByUrl(@PathVariable String url){
         if(url.equals("all") || url.isBlank()){
             return articleService.findAll();
         }
