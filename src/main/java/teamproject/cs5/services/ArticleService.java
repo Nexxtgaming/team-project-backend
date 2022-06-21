@@ -94,7 +94,7 @@ public class ArticleService {
         }
         if (url==3) {
             urlf = ukrinform;
-            Document doc = Jsoup.connect(url).userAgent("Mozilla").get();
+            Document doc = Jsoup.connect(ukrinform).userAgent("Mozilla").get();
             Elements url_article = doc.getElementsByClass("topAnons").select("a");
             int n = url_article.size();
             for (int k = 0; k < n; k++) {
