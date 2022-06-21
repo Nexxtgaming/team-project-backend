@@ -94,21 +94,24 @@ public class ArticleService {
         }
         if (url==3) {
             urlf = ukrinform;
-            Document doc = Jsoup.connect(ukrinform).userAgent("Mozilla").get();
-            Elements img = doc.getElementsByClass("topAnons").select("img");
+            Document doc = Jsoup.connect(url).userAgent("Mozilla").get();
             Elements url_article = doc.getElementsByClass("topAnons").select("a");
-            int n = img.size();
+            int n = url_article.size();
             for (int k = 0; k < n; k++) {
-                img_url.add(img.get(k).attr("src"));
                 web.add("https://www.ukrinform.ua" + url_article.get(k).attr("href"));
             }
-            web.remove(web.size()-1); //problem with the last article
+
+            web.remove(web.size()-1);
             int m = web.size();
             for (int k = 0; k < m; k++) {
                 Document doc2 = Jsoup.connect(web.get(k)).userAgent("Mozilla").get();
                 Elements title_article = doc2.getElementsByClass("newsTitle");
-                if(title_article.size()!=0)
+                Elements img = doc2.getElementsByClass("newsImage");
+                System.out.println(img.size());
+                if(title_article.size()!=0){
                     title.add(title_article.get(0).text());
+                    img_url.add(img.get(0).attr("src"));
+                }
             }
         }
         /*else {
