@@ -10,6 +10,7 @@ import teamproject.cs5.repository.ArticleRepository;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,34 +24,33 @@ public class ArticleService {
         this.articleRepository = articleRepository;
     }
 
-    public List<Article> findAll(){
+    public List<Article> findAll() {
         return articleRepository.findAll();
     }
 
-    public List<Article> getByUrl(long url){ //Get all article from one website.
-        String urlf="";
-        if(url==1)
-            urlf="https://visitukraine.today/uk/blog";
-        if(url==2)
-            urlf="https://war.ukraine.ua/ru/news/";
-        if(url==3)
-            urlf="https://www.ukrinform.ua/";
+    public List<Article> getByUrl(long url) { //Get all article from one website.
+        String urlf = "";
+        if (url == 1)
+            urlf = "https://visitukraine.today/uk/blog";
+        if (url == 2)
+            urlf = "https://war.ukraine.ua/ru/news/";
+        if (url == 3)
+            urlf = "https://www.ukrinform.ua/";
         List<Article> articles_by_url = new ArrayList<Article>();
         List<Article> all_article = findAll();
-        for(Article article : all_article){
-            if(article.getUrl_web_site_init().equals(urlf)) {
+        for (Article article : all_article) {
+            if (article.getUrl_web_site_init().equals(urlf)) {
                 articles_by_url.add(article);
             }
         }
-        if(articles_by_url.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"unable to find article from this url");
-        }
-        else {
+        if (articles_by_url.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "unable to find article from this url");
+        } else {
             return articles_by_url;
         }
     }
 
-    public Article createFromRequest(ArticleRequest request){
+    public Article createFromRequest(ArticleRequest request) {
         Article article = new Article(
                 request.getUrl_web_site_init(),
                 request.getImg_url(),
@@ -69,8 +69,8 @@ public class ArticleService {
         ArrayList<String> text = new ArrayList<String>();
         ArrayList<String> img_url = new ArrayList<String>();
         ArrayList<String> title = new ArrayList<String>();
-        String urlf="";
-        if (url==1) {
+        String urlf = "";
+        if (url == 1) {
             urlf = visitUkraine;
             Document doc = Jsoup.connect(visitUkraine).userAgent("Mozilla/5.0").get();
             Elements img = doc.getElementsByClass("page-blog_all-news-wrapp").select("img");
@@ -82,7 +82,7 @@ public class ArticleService {
                 web.add(url_article.get(2 * k).attr("href"));
             }
         }
-        if (url==2) {
+        if (url == 2) {
             Document doc = Jsoup.connect(warUkraine).userAgent("Mozilla").get(); //use userAgent because the webSite firewall block the acces if not.
             Elements article = doc.getElementsByClass("news-list").select("p");
             Elements time = doc.getElementsByClass("news-list").select("span");
@@ -92,7 +92,7 @@ public class ArticleService {
                 title.add(time.get(k).text());
             }
         }
-        if (url==3) {
+        if (url == 3) {
             urlf = ukrinform;
             Document doc = Jsoup.connect(ukrinform).userAgent("Mozilla").get();
             Elements url_article = doc.getElementsByClass("topAnons").select("a");
@@ -101,14 +101,13 @@ public class ArticleService {
                 web.add("https://www.ukrinform.ua" + url_article.get(k).attr("href"));
             }
 
-            web.remove(web.size()-1);
+            web.remove(web.size() - 1);
             int m = web.size();
             for (int k = 0; k < m; k++) {
                 Document doc2 = Jsoup.connect(web.get(k)).userAgent("Mozilla").get();
                 Elements title_article = doc2.getElementsByClass("newsTitle");
                 Elements img = doc2.getElementsByClass("newsImage");
-                System.out.println(img.size());
-                if(title_article.size()!=0){
+                if (title_article.size() != 0) {
                     title.add(title_article.get(0).text());
                     img_url.add(img.get(0).attr("src"));
                 }
@@ -118,12 +117,11 @@ public class ArticleService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Url can't be scrapped");
         }*/
         int n = title.size();
-        for(int k = 0 ; k<n ; k++){
+        for (int k = 0; k < n; k++) {
             Article article;
-            if(url==2) {
+            if (url == 2) {
                 article = new Article(warUkraine, "", title.get(k), "", text.get(k));
-            }
-            else {
+            } else {
                 article = new Article(urlf, img_url.get(k), title.get(k), web.get(k), "");
             }
             articleRepository.save(article);
@@ -131,11 +129,17 @@ public class ArticleService {
     }
 
 
-    public void deleteAll(){articleRepository.deleteAll();}
-    public void deleteById(Long id){articleRepository.deleteById(id);}
+    public void deleteAll() {
+        System.out.println("deleteAll");
+        articleRepository.deleteAll();
+    }
 
-    public Article getById(Long id){
-        if(articleRepository.findById(id).isPresent()){
+    public void deleteById(Long id) {
+        articleRepository.deleteById(id);
+    }
+
+    public Article getById(Long id) {
+        if (articleRepository.findById(id).isPresent()) {
             return articleRepository.findById(id).get();
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "article not found");

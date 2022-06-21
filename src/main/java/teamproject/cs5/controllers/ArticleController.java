@@ -28,65 +28,28 @@ public class ArticleController {
         this.articleService = articleService;
         this.userService = userService;
     }
-    /*
-    @PostMapping
-    public ResponseEntity<Article> create(@RequestBody ArticleRequest request, Authentication authentication){
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        if(userService.isRole(userDetails.getId(), ERole.ROLE_ADMIN)) {
-            Article article = articleService.createFromRequest(request);
-            return new ResponseEntity<>(article, HttpStatus.CREATED);
-        } else {
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        }
-    }*/
 
     @PostMapping("/createbyurl/{url}")
     public ResponseEntity<Article> createByUrl(@PathVariable("url") long url, Authentication authentication) throws IOException {
-        //UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        //if(userService.isRole(userDetails.getId(), ERole.ROLE_ADMIN))
-        {
-            articleService.createFromUrl(url);
-            return new ResponseEntity<>(HttpStatus.CREATED);
-        }
-        /*else {
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        }*/
+        articleService.createFromUrl(url);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Article> getById(@PathVariable("id") Long id){
+    public ResponseEntity<Article> getById(@PathVariable("id") Long id) {
         Article article = articleService.getById(id);
         return new ResponseEntity<>(article, HttpStatus.OK);
     }
 
-    /*
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Article> delete(@PathVariable Long id, Authentication authentication){
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        Article article = articleService.getById(id);
-        if(userService.isRole(userDetails.getId(), ERole.ROLE_ADMIN)){
-            articleService.deleteById(id);
-            return new ResponseEntity<>(HttpStatus.ACCEPTED);
-        }else {
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        }
-    }*/
-
     @DeleteMapping("/deleteall")
-    public ResponseEntity<Article> deleteall(Authentication authentication){
-        //UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        //if(userService.isRole(userDetails.getId(), ERole.ROLE_ADMIN))
-        {
-            articleService.deleteAll();
-            return new ResponseEntity<>(HttpStatus.ACCEPTED);
-        }
-        /*else {
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        }*/
+    public ResponseEntity<Article> deleteAll() {
+        System.out.println("delete controller");
+        articleService.deleteAll();
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @GetMapping("/all")
-    public List<Article> findAll(){
+    public List<Article> findAll() {
         return articleService.findAll();
     }
 
