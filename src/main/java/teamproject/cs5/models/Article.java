@@ -1,10 +1,7 @@
 package teamproject.cs5.models;
 
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
 
@@ -14,12 +11,17 @@ public class Article {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
+
     private String url_web_site_init;
+
+    @Column(length = 1024)
     private String text;
+
     private String img_url;
-    @NotBlank
+
+    @Column(length = 1024)
     private String title;
+
     private String article_url;
 
 

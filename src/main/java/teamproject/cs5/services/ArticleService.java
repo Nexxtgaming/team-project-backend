@@ -81,7 +81,6 @@ public class ArticleService {
                 title.add(url_article.get(2 * k).text());     //avoid duplicate value (2 href present)
                 web.add(url_article.get(2 * k).attr("href"));
             }
-            System.out.println(urlf+"\n\n\n");
         }
         if (url==2) {
             Document doc = Jsoup.connect(warUkraine).userAgent("Mozilla").get(); //use userAgent because the webSite firewall block the acces if not.
@@ -103,13 +102,14 @@ public class ArticleService {
                 img_url.add(img.get(k).attr("src"));
                 web.add("https://www.ukrinform.ua" + url_article.get(k).attr("href"));
             }
+            web.remove(web.size()-1); //problem with the last article
             int m = web.size();
             for (int k = 0; k < m; k++) {
                 Document doc2 = Jsoup.connect(web.get(k)).userAgent("Mozilla").get();
                 Elements title_article = doc2.getElementsByClass("newsTitle");
-                title.add(title_article.get(0).text());
+                if(title_article.size()!=0)
+                    title.add(title_article.get(0).text());
             }
-            System.out.println(urlf+"\n\n\n");
         }
         /*else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Url can't be scrapped");
@@ -130,6 +130,7 @@ public class ArticleService {
 
     public void deleteAll(){articleRepository.deleteAll();}
     public void deleteById(Long id){articleRepository.deleteById(id);}
+
     public Article getById(Long id){
         if(articleRepository.findById(id).isPresent()){
             return articleRepository.findById(id).get();
