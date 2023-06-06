@@ -1,5 +1,5 @@
 # team-project-backend
-
+Backend of application for a course 'Team project' that helps ukrainian refugees to find a help in poland.
 ## Clone project
 to clone this project you should write command `git clone git@github.com:Nexxtgaming/team-project-backend.git` in terminal
 
